@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="game.project.com.gameclouds.MainActivity"
+    android:background="@drawable/background">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo_imageview"
+        android:background="@drawable/logo"
+        android:layout_gravity="top"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="340dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room ID"
+        android:id="@+id/roomID_textview"
+        android:textColor="#ffffff"
+        android:textSize="48sp"
+        android:textStyle="bold|italic"
+        android:elegantTextHeight="false"
+        android:layout_above="@+id/roomID_edittext"
+        android:layout_marginLeft="60dp"
+        android:layout_toLeftOf="@+id/qr_button"
+        android:layout_toStartOf="@+id/qr_button" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomID_edittext"
+        android:background="@drawable/border_style"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:paddingBottom="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nickname"
+        android:id="@+id/nickname_textview"
+        android:textColor="#ffffff"
+        android:textStyle="bold|italic"
+        android:textSize="48sp"
+        android:layout_below="@+id/roomID_edittext"
+        android:layout_alignLeft="@+id/roomID_edittext"
+        android:layout_alignStart="@+id/roomID_edittext"
+        android:paddingTop="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nickname_edittext"
+        android:background="@drawable/border_style"
+        android:layout_below="@+id/nickname_textview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:paddingBottom="40dp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/help1_sign"
+        android:background="@drawable/help"
+        android:layout_alignBottom="@+id/roomID_textview"
+        android:layout_alignRight="@+id/roomID_edittext"
+        android:layout_alignEnd="@+id/roomID_edittext" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/help2_sign"
+        android:background="@drawable/help"
+        android:layout_above="@+id/nickname_edittext"
+        android:layout_alignRight="@+id/roomID_edittext"
+        android:layout_alignEnd="@+id/roomID_edittext" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/settings_imageview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/settings" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/help_imageview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/help" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/connect_button"
+        android:background="@drawable/arr1"
+        android:layout_alignTop="@+id/nickname_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="scanQR"
+        android:id="@+id/qr_button"
+        android:layout_alignBottom="@+id/roomID_textview"
+        android:layout_alignRight="@+id/connect_button"
+        android:layout_alignEnd="@+id/connect_button"
+        android:background="@drawable/qr2" />
+
+
+</RelativeLayout>

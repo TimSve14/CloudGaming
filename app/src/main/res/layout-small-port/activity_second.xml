@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="game.project.com.gameclouds.MainActivity"
+    android:background="@drawable/background">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo_imageview"
+        android:background="@drawable/logo"
+        android:contentDescription="@string/logo_imageview"
+        android:layout_above="@+id/start_button"
+        android:layout_alignRight="@+id/start_button"
+        android:layout_alignEnd="@+id/start_button" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Start"
+        android:id="@+id/start_button"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/quit_button_button"
+        android:layout_alignEnd="@+id/quit_button_button"
+        android:textSize="10dp"
+        android:background="@drawable/border_style"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Resume"
+        android:id="@+id/resume_button"
+        android:layout_below="@+id/start_button"
+        android:layout_alignLeft="@+id/start_button"
+        android:layout_alignStart="@+id/start_button"
+        android:layout_alignRight="@+id/quit_button_button"
+        android:layout_alignEnd="@+id/quit_button_button"
+        android:background="@drawable/border_style"
+        android:textSize="10dp"
+        android:layout_marginBottom="5dp" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Quit"
+        android:id="@+id/quit_button_button"
+        android:layout_below="@+id/resume_button"
+        android:layout_centerHorizontal="true"
+        android:textSize="10dp"
+        android:background="@drawable/border_style" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/settings_imageview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/settings" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/help_imageview"
+        android:layout_alignBottom="@+id/settings_imageview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/help" />
+
+
+</RelativeLayout>

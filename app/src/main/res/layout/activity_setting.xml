@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:weightSum="1">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:background="@drawable/logo"
+        android:layout_height="160dp"
+        android:layout_width="232dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Settings are supposed to be here..."
+        android:id="@+id/nonsense_textview"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
+        android:paddingTop="20dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:onClick="Rate the coolest game ever!"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="game.project.com.gameclouds.MainActivity"
+    android:background="@drawable/background">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo_imageview"
+        android:background="@drawable/logo"
+        android:contentDescription="@string/logo_imageview"
+        android:layout_above="@+id/help1_sign"
+        android:layout_alignRight="@+id/nickname_textview"
+        android:layout_alignEnd="@+id/nickname_textview" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Room ID"
+        android:id="@+id/roomID_textview"
+        android:textStyle="bold|italic"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:layout_below="@+id/logo_imageview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nickname"
+        android:id="@+id/nickname_textview"
+        android:textStyle="bold|italic"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomID_edittext"
+        android:background="@drawable/border_style"
+        android:paddingBottom="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/nickname_textview"
+        android:layout_alignRight="@+id/help2_sign"
+        android:layout_alignEnd="@+id/help2_sign" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nickname_edittext"
+        android:background="@drawable/border_style"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/nickname_textview"
+        android:layout_alignRight="@+id/roomID_edittext"
+        android:layout_alignEnd="@+id/roomID_edittext" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/help1_sign"
+        android:background="@drawable/help"
+        android:layout_above="@+id/roomID_edittext"
+        android:layout_alignRight="@+id/roomID_edittext"
+        android:layout_alignEnd="@+id/roomID_edittext" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/help2_sign"
+        android:background="@drawable/help"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/nickname_textview"
+        android:layout_toEndOf="@+id/nickname_textview" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/settings_imageview"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/settings" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/help_imageview"
+        android:layout_alignBottom="@+id/settings_imageview"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/help" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/connect_button"
+        android:background="@drawable/arrow"
+        android:layout_alignBottom="@+id/nickname_edittext"
+        android:layout_toEndOf="@+id/qr_button"
+        android:layout_toRightOf="@+id/qr_button"
+        android:layout_below="@+id/help1_sign" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:onClick="scanQR"
+        android:id="@+id/qr_button"
+        android:background="@drawable/qr2"
+        android:layout_alignTop="@+id/connect_button"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

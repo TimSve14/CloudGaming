@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">GameClouds</string>
+    <string name="room_id">Room ID</string>
+    <string name="nickname">NickName</string>
+    <string name="nickname_port">Nickname</string>
+    <string name="room_id_port">Room ID</string>
+    <string name="help_imageview">Help</string>
+    <string name="settings_imageview">settings</string>
+    <string name="help_nickname">help_nickname</string>
+    <string name="help_roomID">help_roomID</string>
+    <string name="logo_imageview">logo</string>
+    <string name="help2">Click on EdiTextField to write your Nickname</string>
+    <string name="help1">Click on EdiTextField to scan QR code</string>
+    <string name="qr_text">QR</string>
+    <string name="nickname_text">Nickname</string>
+    <string name="room_id_text">Room ID</string>
+</resources>
