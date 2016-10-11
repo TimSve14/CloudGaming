@@ -9,21 +9,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 42;
     protected static String room_id;
     protected static String nickname;
+    private Boolean exit = false;
     
 
 
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         mProgress = new ProgressDialog(this);
         RoomID = (EditText)findViewById(R.id.roomID_edittext);
-
         RoomID.setText(data);
 
         Nickname = (EditText)findViewById(R.id.nickname_edittext);
@@ -285,19 +284,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void connectToGame(String room_id,String nickname) {
+    private void connectToGame(String _room_id,String _nickname) {
 
         Intent GameIntent = new Intent(MainActivity.this, SecondActivity.class);
         GameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        GameIntent.putExtra("room",room_id);
-        GameIntent.putExtra("nick",nickname);
+        GameIntent.putExtra("room",_room_id);
+        GameIntent.putExtra("nick",_nickname);
 
         startActivity(GameIntent);
         finish();
     }
 
+
+    @Override
     public void onBackPressed() {
-        finish();
+        if (exit) {
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
+
     }
 
 }

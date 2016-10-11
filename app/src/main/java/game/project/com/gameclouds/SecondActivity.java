@@ -121,10 +121,8 @@ public class SecondActivity extends Activity{
     }
     @Override
     public void onBackPressed() {
-       // Sensor1.stop();
         Intent intent = new Intent(SecondActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }
 }
