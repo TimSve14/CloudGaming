@@ -13,7 +13,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         mProgress = new ProgressDialog(this);
         RoomID = (EditText)findViewById(R.id.roomID_edittext);
         RoomID.setText(data);
+
+        //setText(data);
         Nickname = (EditText)findViewById(R.id.nickname_edittext);
 
         sHelpBtn = (ImageView)findViewById(R.id.help1_sign);
@@ -65,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
         HelpBtn = (ImageView)findViewById(R.id.help_imageview);
 
         ConnectBtn = (ImageView)findViewById(R.id.connect_button);
+        ConnectBtn.setVisibility(View.GONE);
 
         SC = (ImageButton)findViewById(R.id.qr_button);
+
+
 
         SC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
                     nextActivity();
+
                 }
                 else{
                     ActivityCompat.requestPermissions(MainActivity.this,
@@ -201,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
             mProgress.setMessage("Checking player_name...");
             mProgress.show();
 
-
             connectToGame(room_id,player_name);
        } else {
 
@@ -236,5 +244,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private void hideKeyboard(EditText editText)
+    {
+        InputMethodManager imm= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
 
 }
