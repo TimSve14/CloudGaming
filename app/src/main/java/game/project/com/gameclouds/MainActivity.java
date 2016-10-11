@@ -1,11 +1,15 @@
 package game.project.com.gameclouds;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton SC;
     private ProgressDialog mProgress;
     final Context context = this;
-
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 42;
     
 
 
@@ -67,10 +71,18 @@ public class MainActivity extends AppCompatActivity {
         SC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Check if the camera has permission from the player, if it dont
+                // then we ask for it
 
-          //Put code here to check if the camera has permission
-
-                nextActivity();
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    nextActivity();
+                }
+                else{
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.CAMERA},
+                            MY_PERMISSIONS_REQUEST_CAMERA);
+                }
 
             }
         });
@@ -212,13 +224,6 @@ public class MainActivity extends AppCompatActivity {
         mProgress.dismiss();
     }
 
-    public String getRoomId(){
-        return RoomID.getText().toString().trim();
-    }
-
-    public String getNickname(){
-        return Nickname.getText().toString().trim();
-    }
 
     private void connectToGame(String room_id,String nickname) {
 

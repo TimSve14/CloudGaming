@@ -56,6 +56,7 @@ public class InitSensor extends Activity implements SensorEventListener{
             if(move != currentState && move != null) {
                 Connect.sendMove(move);
                 currentState = move;
+               // viewController.update(move);
             }
         }
     }
