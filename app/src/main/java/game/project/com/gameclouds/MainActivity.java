@@ -5,11 +5,13 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog mProgress;
     final Context context = this;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 42;
+    protected static String room_id;
+    protected static String nickname;
     
 
 
@@ -202,25 +206,74 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkLogin() {
 
-        String player_name = Nickname.getText().toString().trim();
-        String room_id = RoomID.getText().toString().trim();
-        if(!TextUtils.isEmpty(player_name) && !TextUtils.isEmpty(room_id)){
+        nickname = Nickname.getText().toString().trim();
+        room_id = RoomID.getText().toString().trim();
+        if(!TextUtils.isEmpty(nickname) && !TextUtils.isEmpty(room_id)){
 
-            mProgress.setMessage("Checking player_name...");
-            mProgress.show();
-
-            connectToGame(room_id,player_name);
+            connectToGame(room_id,nickname);
        } else {
+            if(TextUtils.isEmpty(nickname) && TextUtils.isEmpty(room_id)){
+                new AlertDialog.Builder(context)
 
-            mProgress.setMessage("Please fill the fields!");
-            mProgress.dismiss();
+                        .setTitle("Please fill in:")
+                        .setMessage("RoomID and Nickname")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+            else if(TextUtils.isEmpty(room_id)) {
+                new AlertDialog.Builder(context)
+
+                        .setTitle("Please fill in:")
+                        .setMessage("RoomID")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+            else{
+                new AlertDialog.Builder(context)
+
+                        .setTitle("Please fill in:")
+                        .setMessage("Nickname")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
        }
 
        try
        {
            JSONObject player=new JSONObject();
 
-           player.put("player_name", player_name);
+           player.put("player_name", nickname);
            player.put("roomID", room_id);
        }
        catch (Exception je)
@@ -243,10 +296,8 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void hideKeyboard(EditText editText)
-    {
-        InputMethodManager imm= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    public void onBackPressed() {
+        finish();
     }
 
 }

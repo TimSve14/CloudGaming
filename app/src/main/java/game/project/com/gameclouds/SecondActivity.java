@@ -18,16 +18,14 @@ public class SecondActivity extends Activity{
     private Button QuitBtn;
     private ImageView SettingsBtn;
     private ImageView HelpBtn;
-    private InitSensor Sensor1;
-    private SimpleController Controller;
-    private SocketConnect Connect;
+    String room_id;
+    String nickname;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
         StartBtn = (Button)findViewById(R.id.start_button);
         ResumeBtn = (Button)findViewById(R.id.resume_button);
@@ -93,18 +91,11 @@ public class SecondActivity extends Activity{
 
         Bundle extras = getIntent().getExtras();
 
-        String nick = extras.getString("nick");
-        String room = extras.getString("room");
+        nickname = extras.getString("nick");
+        room_id = extras.getString("room");
 
-        Connect= new SocketConnect(room,"input",nick);
-
-        Controller = new SimpleController();
-
-        Connect.startSocketConnection();
-
-        Sensor1 = new InitSensor(this,Controller,Connect);
-
-        Sensor1.start();
+        GameIntent.putExtra("room",room_id);
+        GameIntent.putExtra("nick",nickname);
 
         startActivity(GameIntent);
 
