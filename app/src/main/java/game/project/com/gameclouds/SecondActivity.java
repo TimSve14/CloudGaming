@@ -106,11 +106,7 @@ public class SecondActivity extends Activity{
 
         Sensor1.start();
 
-
         startActivity(GameIntent);
-
-
-
 
     }
 

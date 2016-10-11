@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
         SC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+          //Put code here to check if the camera has permission
+
                 nextActivity();
+
             }
         });
 
