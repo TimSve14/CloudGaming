@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        String data= getIntent().getStringExtra("key");
+        final String data= getIntent().getStringExtra("key");
 
         mProgress = new ProgressDialog(this);
         RoomID = (EditText)findViewById(R.id.roomID_edittext);
+
         RoomID.setText(data);
 
-        //setText(data);
         Nickname = (EditText)findViewById(R.id.nickname_edittext);
 
         sHelpBtn = (ImageView)findViewById(R.id.help1_sign);
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         HelpBtn = (ImageView)findViewById(R.id.help_imageview);
 
         ConnectBtn = (ImageView)findViewById(R.id.connect_button);
-        ConnectBtn.setVisibility(View.GONE);
 
         SC = (ImageButton)findViewById(R.id.qr_button);
 

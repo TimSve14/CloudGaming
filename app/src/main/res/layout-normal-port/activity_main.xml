@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="game.project.com.gameclouds.MainActivity"
-    android:background="@drawable/background">
+    android:background="@color/BackgroundBlue">
 
 
         <ImageView
@@ -20,7 +20,8 @@
             android:layout_toRightOf="@+id/settings_imageview"
             android:layout_toEndOf="@+id/settings_imageview"
             android:layout_marginRight="40dp"
-            />
+            android:visibility="visible"
+            android:elevation="9dp" />
 
 
     <ImageView
@@ -58,7 +59,9 @@
         android:layout_marginTop="0dp"
         android:layout_below="@+id/roomID_textview"
         android:padding="10dp"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionDone"/>
     <ImageButton android:id="@+id/qr_button"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
@@ -90,7 +93,10 @@
         android:layout_marginLeft="40dp"
         android:background="@drawable/border_style"
         android:layout_marginRight="40dp"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionDone"/>
 
     <ImageView
         android:layout_width="20dp"
