@@ -98,6 +98,7 @@ public class SecondActivity extends Activity{
         GameIntent.putExtra("nick",nickname);
 
         startActivity(GameIntent);
+        finish();
 
     }
 
