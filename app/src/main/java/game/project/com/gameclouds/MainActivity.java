@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom);
-                dialog.setTitle("Okay, okay I will help you");
+                dialog.setTitle("RoomId");
 
                 TextView text = (TextView) dialog.findViewById(R.id.text);
                 text.setText(R.string.help1);
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.custom);
-                dialog.setTitle("Okay, okay I will help you");
+                dialog.setTitle("Nickname");
 
                 TextView text = (TextView) dialog.findViewById(R.id.text);
                 text.setText(R.string.help2);
@@ -299,9 +299,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (exit) {
-            System.exit(0);
+            finish();
         } else {
-            Toast.makeText(this, "Press Back again to Exit.",
+            Toast.makeText(this, "Press Back again to Exit",
                     Toast.LENGTH_SHORT).show();
             exit = true;
             new Handler().postDelayed(new Runnable() {

@@ -9,8 +9,8 @@
     <string name="help_nickname">help_nickname</string>
     <string name="help_roomID">help_roomID</string>
     <string name="logo_imageview">logo</string>
-    <string name="help2">Click on EdiTextField to write your Nickname</string>
-    <string name="help1">Click on EdiTextField to scan QR code</string>
+    <string name="help2">Write a nickname you want to use in the game</string>
+    <string name="help1">Click on qr-icon and scan the roomID from the webpage</string>
     <string name="qr_text">QR</string>
     <string name="nickname_text">Nickname</string>
     <string name="room_id_text">Room ID</string>
