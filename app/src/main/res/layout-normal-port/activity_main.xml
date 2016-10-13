@@ -45,6 +45,7 @@
         android:maxLines="1"
         android:inputType="text"
         android:imeOptions="actionDone"/>
+
     <ImageButton android:id="@+id/qr_button"
         android:layout_width="40dp"
         android:layout_height="wrap_content"

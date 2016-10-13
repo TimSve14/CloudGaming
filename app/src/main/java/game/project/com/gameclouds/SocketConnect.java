@@ -19,14 +19,11 @@ import java.net.URISyntaxException;
 public class SocketConnect extends Activity {
 
     private Socket mSocket;
-    Vibrator v;
     String roomId = "";
     String input = "";
     String userName = "";
+    Vibrator v;
 
-    public SocketConnect() {
-
-    }
     public SocketConnect(String roomId, String input, String userName){
 
         try {
@@ -42,21 +39,10 @@ public class SocketConnect extends Activity {
 
     public void startSocketConnection(){
 
-
-       // v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-
-
-        mSocket.on("move received", new Emitter.Listener() {
-
-            @Override
-            public void call(Object... args) {
-               // v.vibrate(100);
-            }
-        });
-
         mSocket.connect();
 
         JSONObject connect = new JSONObject();
+
         try {
             connect.put("id", roomId);
             connect.put("type", input);
@@ -71,22 +57,25 @@ public class SocketConnect extends Activity {
 
     }
 
-    public JSONObject setJsonObject(String msg){ // String id, String nick
 
-        JSONObject JsonObject = new JSONObject();
+    public void sendMove(String move){
+
+        JSONObject JsonMove = new JSONObject();
+
         try {
-            JsonObject.put("move", msg);
-            //JsonObject.put("id", id);
-            //JsonObject.put("nick", nick);
+            JsonMove.put("move", move);
+
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return JsonObject;
+        mSocket.emit("new move",JsonMove);
     }
-    public void sendMove(String move){
-        mSocket.emit("new move",setJsonObject(move)); //,roomId,userName
+
+    public Socket getSocket(){
+        return mSocket;
     }
+
 
 }

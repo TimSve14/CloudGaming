@@ -26,7 +26,9 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-
+/**
+ * Created by Lolita & Tim on 2016-09-26.
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -171,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private void nextActivity() {
@@ -288,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent GameIntent = new Intent(MainActivity.this, SecondActivity.class);
         GameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         GameIntent.putExtra("room",_room_id);
         GameIntent.putExtra("nick",_nickname);
 
@@ -314,5 +319,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
 }
