@@ -27,7 +27,7 @@ public class SocketConnect extends Activity {
     public SocketConnect(String roomId, String input, String userName){
 
         try {
-            mSocket = IO.socket("http://130.211.111.100");
+            mSocket = IO.socket("http://104.155.77.173");
 
         } catch (URISyntaxException e) {
         }

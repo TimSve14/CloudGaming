@@ -1,12 +1,14 @@
 package game.project.com.gameclouds;
 
 import android.content.Context;
+import android.widget.ImageView;
 
 /**
  * Created by TimSvensson on 2016-10-04.
  */
 
 public class SimpleController implements Controller{
+
 
     public SimpleController(){
 
@@ -18,6 +20,8 @@ public class SimpleController implements Controller{
         float xAccel = coordinates[0];
         float yAccel = coordinates[1];
         float zAccel = coordinates[2];
+
+
 
         if ((xAccel > 3 && xAccel < 7) && (yAccel < 2 && yAccel > -2) && zAccel > 7) {
             return "C";
