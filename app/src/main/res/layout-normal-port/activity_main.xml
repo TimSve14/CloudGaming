@@ -46,13 +46,8 @@
         android:inputType="text"
         android:imeOptions="actionDone"/>
 
-    <ImageButton android:id="@+id/qr_button"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/roomID_edittext"
-        android:layout_alignBottom="@+id/roomID_edittext"
-        android:layout_alignRight="@+id/roomID_edittext"
-        android:background="@drawable/qr2"/>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -123,13 +118,25 @@
     <ImageView
         android:id="@+id/connect_button"
         android:background="@drawable/arrow2"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:elevation="9dp"
         android:layout_marginBottom="14dp"
         android:layout_above="@+id/help_imageview"
         android:layout_centerHorizontal="true"
         android:layout_width="60dp"
         android:layout_height="60dp" />
+
+    <ImageView
+        android:id="@+id/qr1_button"
+        android:background="@drawable/qr"
+        android:visibility="visible"
+        android:elevation="9dp"
+        android:layout_marginBottom="14dp"
+        android:layout_above="@+id/help_imageview"
+        android:layout_centerHorizontal="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        />
 
 
 </RelativeLayout>

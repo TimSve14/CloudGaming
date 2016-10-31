@@ -16,10 +16,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView sHelpBtn2;
     private ImageView SettingsBtn;
     private ImageView HelpBtn;
-    private ImageButton SC;
+    private ImageView SC1;
     private ProgressDialog mProgress;
     final Context context = this;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 42;
@@ -60,9 +61,39 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final String data= getIntent().getStringExtra("key");
 
-        mProgress = new ProgressDialog(this);
+                mProgress = new ProgressDialog(this);
         RoomID = (EditText)findViewById(R.id.roomID_edittext);
         RoomID.setText(data);
+        room_id = RoomID.getText().toString().trim();
+
+
+        RoomID.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        room_id = RoomID.getText().toString().trim();
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH
+                                || actionId == EditorInfo.IME_ACTION_DONE
+                                || event.getAction() == KeyEvent.ACTION_DOWN
+                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            System.out.println(room_id .length());
+                            if(room_id .length() == 6){
+                                SC1.setVisibility(View.INVISIBLE);
+                                ConnectBtn.setVisibility(View.VISIBLE);
+
+                            }
+                            else if (!(room_id .length() == 6)){
+                                SC1.setVisibility(View.VISIBLE);
+                                ConnectBtn.setVisibility(View.INVISIBLE);
+                            }
+
+                            return false;
+                        }
+                        return true;
+                    }
+                });
+
 
         Nickname = (EditText)findViewById(R.id.nickname_edittext);
 
@@ -73,12 +104,19 @@ public class MainActivity extends AppCompatActivity {
         HelpBtn = (ImageView)findViewById(R.id.help_imageview);
 
         ConnectBtn = (ImageView)findViewById(R.id.connect_button);
+        SC1 = (ImageView)findViewById(R.id.qr1_button);
 
-        SC = (ImageButton)findViewById(R.id.qr_button);
+        if(room_id .length() == 6){
+            SC1.setVisibility(View.INVISIBLE);
+            ConnectBtn.setVisibility(View.VISIBLE);
+        }
 
 
 
-        SC.setOnClickListener(new View.OnClickListener() {
+
+
+
+        SC1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Check if the camera has permission from the player, if it dont
@@ -209,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
         nickname = Nickname.getText().toString().trim();
         room_id = RoomID.getText().toString().trim();
+
         if(!TextUtils.isEmpty(nickname) && !TextUtils.isEmpty(room_id)){
 
             connectToGame(room_id,nickname);
