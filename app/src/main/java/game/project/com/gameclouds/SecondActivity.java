@@ -2,9 +2,11 @@ package game.project.com.gameclouds;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -52,12 +54,8 @@ public class SecondActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        
         StartBtn = (Button)findViewById(R.id.start_button);
         StartBtn2 = (Button)findViewById(R.id.start_button2);
-
-
-
         Left = (Button)findViewById(R.id.btnleft);
         LeftMore = (Button)findViewById(R.id.btnleftmore);
         Right = (Button)findViewById(R.id.btnright);
@@ -504,7 +502,10 @@ public class SecondActivity extends Activity{
         StartBtn.setVisibility(View.INVISIBLE);
         StartBtn2.setVisibility(View.VISIBLE);
 
-        Connect = new SocketConnect(room_id,"input",nickname);
+        SharedPreferences mPrefs = getSharedPreferences("myAppPackage",0);
+        String ipadress = mPrefs.getString("ipadress", "");
+
+        Connect = new SocketConnect(room_id,"input",nickname,ipadress);
         Connect.startSocketConnection();
 
         Connect.getSocket().on("move received",onNewVibrate);

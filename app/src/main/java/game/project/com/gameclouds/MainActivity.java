@@ -46,15 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected static String room_id;
     protected static String nickname;
     private Boolean exit = false;
-    
-
-
 
     /**
      * OnCreate method,
      * Initialise widgets from layout
      * Include onClick event Handlers
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
