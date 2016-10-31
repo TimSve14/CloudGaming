@@ -600,9 +600,11 @@ public class SecondActivity extends Activity{
         Connect.getSocket().off("new message", onNewVibrate);
         Connect.getSocket().off("lobby is full", lobbyFull);
         Connect.getSocket().off("game is running" , gameRunning);
-        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         finish();
     }
+
 
 }
