@@ -138,7 +138,9 @@ public class SecondActivity extends Activity{
 
                 }
             });
-        }else{}
+        }else{
+            //Do what ?
+        }
     }
 
 
