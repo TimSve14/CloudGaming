@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +23,14 @@ public class SettingActivity extends Activity{
 
     private EditText IpAdress;
     private String ip_adress;
+    private Button test;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         IpAdress = (EditText)findViewById(R.id.ip_edittext);
-
 
         IpAdress.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -40,6 +43,18 @@ public class SettingActivity extends Activity{
                     return false;
                 }
                 return true;
+            }
+        });
+        Button button= (Button) findViewById(R.id.test_controll);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent GameIntent = new Intent(SettingActivity.this, SecondActivity.class);
+                GameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                GameIntent.putExtra("room", "1");
+                GameIntent.putExtra("nick", "test");
+                startActivity(GameIntent);
+                finish();
             }
         });
 

@@ -13,6 +13,7 @@ public class HelpActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);

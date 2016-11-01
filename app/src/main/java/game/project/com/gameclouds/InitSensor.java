@@ -74,13 +74,8 @@ public class InitSensor extends Activity implements SensorEventListener{
                 Connect.sendMove(move);
                 currentState = move;
                 sa.update(move);
-                //viewController.update(move);
             }
         }
-        /*for(Activity a : ls)
-        * a.update(move)
-        *
-        * */
 
     }
 

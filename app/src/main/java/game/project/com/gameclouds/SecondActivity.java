@@ -44,6 +44,7 @@ public class SecondActivity extends Activity{
     private InitSensor Sensor1;
     private SimpleController Controller;
     private SocketConnect Connect;
+    private boolean activeSensor;
     String room_id;
     String nickname;
     Vibrator v;
@@ -53,7 +54,10 @@ public class SecondActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        activeSensor = false;
+
         StartBtn = (Button)findViewById(R.id.start_button);
         StartBtn2 = (Button)findViewById(R.id.start_button2);
         Left = (Button)findViewById(R.id.btnleft);
@@ -511,6 +515,7 @@ public class SecondActivity extends Activity{
         Connect.getSocket().on("move received",onNewVibrate);
         Connect.getSocket().on("lobby is full", lobbyFull);
         Connect.getSocket().on("game is running", gameRunning);
+        Connect.getSocket().on("pingding",pingding);
         Connect.getSocket().on("quit",quit);
 
         Controller = new SimpleController();
@@ -518,6 +523,7 @@ public class SecondActivity extends Activity{
 
         Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
         Sensor1.start();
+        activeSensor = true;
 
     }
 
@@ -560,18 +566,31 @@ public class SecondActivity extends Activity{
         @Override
         public void call(Object... args) {
 
-            Sensor1.stop();
-            Connect.getSocket().disconnect();
-            Connect.getSocket().off("new message", onNewVibrate);
-            Connect.getSocket().off("lobby is full", lobbyFull);
-            Connect.getSocket().off("game is running" , gameRunning);
+            if(activeSensor) {
+                Sensor1.stop();
+                Connect.getSocket().disconnect();
+                Connect.getSocket().off("new message", onNewVibrate);
+                Connect.getSocket().off("lobby is full", lobbyFull);
+                Connect.getSocket().off("game is running", gameRunning);
+                Connect.getSocket().off("pingding", pingding);
+            }
             Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
             finish();
         }
 
     };
 
+    private Emitter.Listener pingding = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            Connect.getSocket().emit("ping response");
+
+        }
+
+    };
 
     /*
     * helpInfo() and settingInfo() are two methods which redirect to a new Activity
@@ -595,12 +614,15 @@ public class SecondActivity extends Activity{
 
     @Override
     public void onBackPressed() {
-        Sensor1.stop();
-        Connect.getSocket().disconnect();
-        Connect.getSocket().off("new message", onNewVibrate);
-        Connect.getSocket().off("lobby is full", lobbyFull);
-        Connect.getSocket().off("game is running" , gameRunning);
-        Intent intent = new Intent(this, MainActivity.class);
+        if(activeSensor) {
+            Sensor1.stop();
+            Connect.getSocket().disconnect();
+            Connect.getSocket().off("new message", onNewVibrate);
+            Connect.getSocket().off("lobby is full", lobbyFull);
+            Connect.getSocket().off("game is running", gameRunning);
+            Connect.getSocket().off("pingding", pingding);
+        }
+        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         finish();
