@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="game.project.com.gameclouds.MainActivity"
+tools:context="game.project.com.gameclouds.SecondActivity"
     android:background="@drawable/game">
 <!--android:background="@color/BackgroundBlue" -->
 
@@ -31,21 +31,6 @@ tools:context="game.project.com.gameclouds.MainActivity"
     android:background="@drawable/help"
     android:visibility="invisible" />
 
-
-
-   <!-- <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:id="@+id/start_button"
-        android:background="@drawable/border_style"
-        android:layout_marginTop="230dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp" />
-        -->
 
     <Button
         android:layout_width="wrap_content"

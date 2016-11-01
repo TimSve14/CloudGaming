@@ -1,17 +1,14 @@
 package game.project.com.gameclouds;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Vibrator;
-
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.URISyntaxException;
-
 /**
  * Created by TimSvensson on 2016-10-04.
  */
@@ -24,13 +21,23 @@ public class SocketConnect extends Activity {
     String userName = "";
     Vibrator v;
 
-    public SocketConnect(String roomId, String input, String userName){
+    public SocketConnect(String roomId, String input, String userName,String ipadress){
+       if(ipadress != null){
+           try {
+               ipadress = "104.155.77.173";
+               mSocket = IO.socket("http://"+ ipadress + "/");
 
-        try {
-            mSocket = IO.socket("http://104.155.77.173");
+           } catch (URISyntaxException e) {
+           }
+       }
+        else{
+           try {
+               mSocket = IO.socket("http://104.155.77.173/");
 
-        } catch (URISyntaxException e) {
-        }
+           } catch (URISyntaxException e) {
+           }
+       }
+
 
         this.roomId = roomId;
         this.input = input;
@@ -76,6 +83,7 @@ public class SocketConnect extends Activity {
     public Socket getSocket(){
         return mSocket;
     }
+
 
 
 }

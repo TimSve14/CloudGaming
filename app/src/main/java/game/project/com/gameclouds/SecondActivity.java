@@ -2,15 +2,17 @@ package game.project.com.gameclouds;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.github.nkzawa.emitter.Emitter;
 
 
@@ -22,28 +24,11 @@ import com.github.nkzawa.emitter.Emitter;
 public class SecondActivity extends Activity{
     private Button StartBtn;
     private Button StartBtn2;
-    private Button Left;
-    private Button LeftMore;
-    private Button Right;
-    private Button RightMore;
-    private Button Up;
-    private Button UpMore;
-    private Button Down;
-    private Button DownMore;
-    private Button UpLeft;
-    private Button UpRight;
-    private Button DownLeft;
-    private Button DownRight;
-    private Button UpLeftMore;
-    private Button UpRightMore;
-    private Button DownLeftMore;
-    private Button DownRightMore;
-    private ImageView SettingsBtn;
-    private ImageView HelpBtn;
     private ImageView imageview;
     private InitSensor Sensor1;
     private SimpleController Controller;
     private SocketConnect Connect;
+    private boolean activeSensor;
     String room_id;
     String nickname;
     Vibrator v;
@@ -54,8 +39,16 @@ public class SecondActivity extends Activity{
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_second);
         setContentView(R.layout.activity_t);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        
+        activeSensor = false;
+
         StartBtn = (Button)findViewById(R.id.start_button);
         StartBtn2 = (Button)findViewById(R.id.start_button2);
 
@@ -65,42 +58,6 @@ public class SecondActivity extends Activity{
 
 
 
-        /*Left = (Button)findViewById(R.id.btnleft);
-        LeftMore = (Button)findViewById(R.id.btnleftmore);
-        Right = (Button)findViewById(R.id.btnright);
-        RightMore = (Button)findViewById(R.id.btnrightmore);
-
-        Up = (Button)findViewById(R.id.btnup);
-        UpMore = (Button)findViewById(R.id.btnupmore);
-        Down = (Button)findViewById(R.id.btndown);
-        DownMore = (Button)findViewById(R.id.btndownmore);
-
-
-        UpLeft = (Button)findViewById(R.id.buttonupleft);
-        UpRight = (Button)findViewById(R.id.buttonupright);
-        DownLeft = (Button)findViewById(R.id.buttondownleft);
-        DownRight = (Button)findViewById(R.id.buttondownright);
-
-        UpLeftMore = (Button)findViewById(R.id.btnupleftmore);
-        UpRightMore = (Button)findViewById(R.id.btnuprightmore);
-        DownLeftMore = (Button)findViewById(R.id.btndownleftmore);
-        DownRightMore = (Button)findViewById(R.id.btndownrightmore);
-
-        SettingsBtn = (ImageView)findViewById(R.id.settings_imageview);
-        HelpBtn = (ImageView)findViewById(R.id.help_imageview);
-
-        SettingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                settingInfo();
-            }
-        });
-        HelpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                helpInfo();
-            }
-        });*/
 
 
         StartBtn.setOnClickListener(new View.OnClickListener() {
@@ -186,19 +143,21 @@ public class SecondActivity extends Activity{
 
 
 
-
     private void startGame() {
 
         StartBtn.setVisibility(View.INVISIBLE);
-
         StartBtn2.setVisibility(View.VISIBLE);
 
-        Connect = new SocketConnect(room_id,"input",nickname);
+        SharedPreferences mPrefs = getSharedPreferences("myAppPackage",0);
+        String ipadress = mPrefs.getString("ipadress", "");
+
+        Connect = new SocketConnect(room_id,"input",nickname,ipadress);
         Connect.startSocketConnection();
 
         Connect.getSocket().on("move received",onNewVibrate);
         Connect.getSocket().on("lobby is full", lobbyFull);
         Connect.getSocket().on("game is running", gameRunning);
+        Connect.getSocket().on("pingding",pingding);
         Connect.getSocket().on("quit",quit);
 
         Controller = new SimpleController();
@@ -206,6 +165,7 @@ public class SecondActivity extends Activity{
 
         Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
         Sensor1.start();
+        activeSensor = true;
 
     }
 
@@ -219,8 +179,6 @@ public class SecondActivity extends Activity{
         }
 
     };
-
-
 
     private Emitter.Listener lobbyFull = new Emitter.Listener() {
 
@@ -248,18 +206,31 @@ public class SecondActivity extends Activity{
         @Override
         public void call(Object... args) {
 
-            Sensor1.stop();
-            Connect.getSocket().disconnect();
-            Connect.getSocket().off("new message", onNewVibrate);
-            Connect.getSocket().off("lobby is full", lobbyFull);
-            Connect.getSocket().off("game is running" , gameRunning);
+            if(activeSensor) {
+                Sensor1.stop();
+                Connect.getSocket().disconnect();
+                Connect.getSocket().off("new message", onNewVibrate);
+                Connect.getSocket().off("lobby is full", lobbyFull);
+                Connect.getSocket().off("game is running", gameRunning);
+                Connect.getSocket().off("pingding", pingding);
+            }
             Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
 
     };
 
+    private Emitter.Listener pingding = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            Connect.getSocket().emit("ping response");
+
+        }
+
+    };
 
     /*
     * helpInfo() and settingInfo() are two methods which redirect to a new Activity
@@ -279,412 +250,22 @@ public class SecondActivity extends Activity{
 
     }
 
-
-
     @Override
     public void onBackPressed() {
-        Sensor1.stop();
-        Connect.getSocket().disconnect();
-        Connect.getSocket().off("new message", onNewVibrate);
-        Connect.getSocket().off("lobby is full", lobbyFull);
-        Connect.getSocket().off("game is running" , gameRunning);
+        if(activeSensor) {
+            Sensor1.stop();
+            Connect.getSocket().disconnect();
+            Connect.getSocket().off("new message", onNewVibrate);
+            Connect.getSocket().off("lobby is full", lobbyFull);
+            Connect.getSocket().off("game is running", gameRunning);
+            Connect.getSocket().off("pingding", pingding);
+        }
+
         Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
-
-
-
-   /* public  void update (final String move){
-
-        if(move != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    if (move.equals("R0")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.VISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("R1")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.VISIBLE);
-
-
-
-
-                        RightMore.setVisibility(View.VISIBLE);
-
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("L0")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.VISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("L1")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.VISIBLE);
-                        LeftMore.setVisibility(View.VISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("U0")) {
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.VISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("U1")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.VISIBLE);
-                        UpMore.setVisibility(View.VISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("D0")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.VISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("D1")) {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.VISIBLE);
-                        DownMore.setVisibility(View.VISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("LU0")) {
-
-                        UpLeft.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    }else if (move.equals("RU0")) {
-
-                        UpRight.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-                        UpLeft.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("LD0")) {
-
-                        DownLeft.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        DownRight.setVisibility(View.INVISIBLE);
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    }else if (move.equals("RD0")) {
-
-                        DownRight.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("RD1")) {
-
-                        DownRightMore.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.VISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    } else if (move.equals("LD1")) {
-
-                        DownLeftMore.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        DownLeft.setVisibility(View.VISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    }else if (move.equals("RU1")) {
-
-                        UpRightMore.setVisibility(View.VISIBLE);
-
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.VISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    }else if (move.equals("LU1")) {
-
-                        UpLeftMore.setVisibility(View.VISIBLE);
-
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpRight.setVisibility(View.INVISIBLE);
-                        UpLeft.setVisibility(View.VISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                    }
-                    else {
-                        UpLeftMore.setVisibility(View.INVISIBLE);
-                        UpRightMore.setVisibility(View.INVISIBLE);
-                        DownLeftMore.setVisibility(View.INVISIBLE);
-                        DownRightMore.setVisibility(View.INVISIBLE);
-
-                        UpLeft.setVisibility(View.INVISIBLE);
-                        UpRight.setVisibility(View.INVISIBLE);
-                        DownLeft.setVisibility(View.INVISIBLE);
-                        DownRight.setVisibility(View.INVISIBLE);
-
-
-                        Right.setVisibility(View.INVISIBLE);
-                        RightMore.setVisibility(View.INVISIBLE);
-                        Left.setVisibility(View.INVISIBLE);
-                        LeftMore.setVisibility(View.INVISIBLE);
-
-                        Up.setVisibility(View.INVISIBLE);
-                        UpMore.setVisibility(View.INVISIBLE);
-                        Down.setVisibility(View.INVISIBLE);
-                        DownMore.setVisibility(View.INVISIBLE);
-                    }
-                }
-            });
-        }else {
-            Log.i("LALALLA", "YOU");
-        }
-
-    }*/
 
 }

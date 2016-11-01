@@ -14,22 +14,37 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Settings are supposed to be here..."
-        android:id="@+id/nonsense_textview"
-        android:layout_gravity="center_horizontal"
+        android:text="Enter IP-adress:"
+        android:id="@+id/ip_textview"
         android:textColor="#ffffff"
-        android:textSize="25sp"
         android:textStyle="bold|italic"
-        android:paddingTop="20dp" />
+        android:textSize="28sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="0dp"/>
 
-    <RatingBar
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:onClick="Rate the coolest game ever!"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp"
-        android:layout_marginTop="20dp" />
+        android:id="@+id/ip_edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/border_style"
+        android:layout_marginRight="40dp"
+        android:padding="10dp"
+        android:maxLines="1"
+        android:inputType="text"
+
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:text="Test controller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/test_controll" />
 
 </LinearLayout>
