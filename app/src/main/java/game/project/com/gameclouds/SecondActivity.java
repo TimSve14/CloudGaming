@@ -3,6 +3,7 @@ package game.project.com.gameclouds;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class SecondActivity extends Activity{
     private Button DownRightMore;
     private ImageView SettingsBtn;
     private ImageView HelpBtn;
+    private ImageView imageview;
     private InitSensor Sensor1;
     private SimpleController Controller;
     private SocketConnect Connect;
@@ -50,15 +52,20 @@ public class SecondActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        //setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_t);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
         StartBtn = (Button)findViewById(R.id.start_button);
         StartBtn2 = (Button)findViewById(R.id.start_button2);
 
+        imageview = (ImageView)findViewById(R.id.imageView);
+        imageview.setImageResource(R.drawable.gamestart);
+        ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
 
 
-        Left = (Button)findViewById(R.id.btnleft);
+
+        /*Left = (Button)findViewById(R.id.btnleft);
         LeftMore = (Button)findViewById(R.id.btnleftmore);
         Right = (Button)findViewById(R.id.btnright);
         RightMore = (Button)findViewById(R.id.btnrightmore);
@@ -93,12 +100,13 @@ public class SecondActivity extends Activity{
             public void onClick(View view) {
                 helpInfo();
             }
-        });
+        });*/
 
 
         StartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startGame();
             }
         });
@@ -110,7 +118,185 @@ public class SecondActivity extends Activity{
 
     }
 
-    public  void update (final String move){
+    public void update(final String move) {
+        if (move != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(move.equals("L0")){
+
+                        imageview.setImageResource(R.drawable.trans);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+
+                    }else if(move.equals("L1")){
+                        imageview.setImageResource(R.drawable.trans1);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    } else if(move.equals("R0")){
+                        imageview.setImageResource(R.drawable.transhr);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("R1")){
+                        imageview.setImageResource(R.drawable.transrm);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("U0")){
+                        imageview.setImageResource(R.drawable.transhu);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("U1")){
+                        imageview.setImageResource(R.drawable.transum);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("D0")){
+                        imageview.setImageResource(R.drawable.transhd);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("D1")){
+                        imageview.setImageResource(R.drawable.transdm);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("LU0")){
+                        imageview.setImageResource(R.drawable.transuplefthalf);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("LU1")){
+                        imageview.setImageResource(R.drawable.transupleft);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("RU0")){
+                        imageview.setImageResource(R.drawable.transuprighthalf);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("RU1")){
+                        imageview.setImageResource(R.drawable.transupright);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("LD0")){
+                        imageview.setImageResource(R.drawable.transdownlefthalf);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("LD1")){
+                        imageview.setImageResource(R.drawable.transdownleft);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("RD0")){
+                        imageview.setImageResource(R.drawable.transdownrighthalf);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }else if(move.equals("RD1")){
+                        imageview.setImageResource(R.drawable.transdownright);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }
+                    else {
+                        imageview.setImageResource(R.drawable.transss);
+                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                    }
+
+                }
+            });
+        }else{}
+    }
+
+
+
+
+    private void startGame() {
+
+        StartBtn.setVisibility(View.INVISIBLE);
+
+        StartBtn2.setVisibility(View.VISIBLE);
+
+        Connect = new SocketConnect(room_id,"input",nickname);
+        Connect.startSocketConnection();
+
+        Connect.getSocket().on("move received",onNewVibrate);
+        Connect.getSocket().on("lobby is full", lobbyFull);
+        Connect.getSocket().on("game is running", gameRunning);
+        Connect.getSocket().on("quit",quit);
+
+        Controller = new SimpleController();
+
+
+        Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
+        Sensor1.start();
+
+    }
+
+    private Emitter.Listener onNewVibrate = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
+            v.vibrate(100);
+
+        }
+
+    };
+
+
+
+    private Emitter.Listener lobbyFull = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            // Start game YAY!
+
+
+        }
+
+    };
+
+    private Emitter.Listener gameRunning = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+
+
+        }
+
+    };
+
+    private Emitter.Listener quit = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+
+            Sensor1.stop();
+            Connect.getSocket().disconnect();
+            Connect.getSocket().off("new message", onNewVibrate);
+            Connect.getSocket().off("lobby is full", lobbyFull);
+            Connect.getSocket().off("game is running" , gameRunning);
+            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    };
+
+
+    /*
+    * helpInfo() and settingInfo() are two methods which redirect to a new Activity
+    */
+    private void helpInfo() {
+
+        Intent HelpIntent = new Intent(SecondActivity.this,HelpActivity.class);
+        HelpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(HelpIntent);
+    }
+
+    private void settingInfo() {
+
+        Intent SettingIntent = new Intent(SecondActivity.this,SettingActivity.class);
+        SettingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(SettingIntent);
+
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        Sensor1.stop();
+        Connect.getSocket().disconnect();
+        Connect.getSocket().off("new message", onNewVibrate);
+        Connect.getSocket().off("lobby is full", lobbyFull);
+        Connect.getSocket().off("game is running" , gameRunning);
+        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+
+   /* public  void update (final String move){
 
         if(move != null) {
             runOnUiThread(new Runnable() {
@@ -148,10 +334,14 @@ public class SecondActivity extends Activity{
                         UpRight.setVisibility(View.INVISIBLE);
                         DownLeft.setVisibility(View.INVISIBLE);
                         DownRight.setVisibility(View.INVISIBLE);
-                        //Right.startAnimation(AnimationUtils.loadAnimation(SecondActivity.this,android.R.anim.slide_in_left));
+
                         Right.setVisibility(View.VISIBLE);
 
+
+
+
                         RightMore.setVisibility(View.VISIBLE);
+
                         Left.setVisibility(View.INVISIBLE);
                         LeftMore.setVisibility(View.INVISIBLE);
 
@@ -495,113 +685,6 @@ public class SecondActivity extends Activity{
             Log.i("LALALLA", "YOU");
         }
 
-    }
-
-
-
-    private void startGame() {
-
-        StartBtn.setVisibility(View.INVISIBLE);
-        StartBtn2.setVisibility(View.VISIBLE);
-
-        Connect = new SocketConnect(room_id,"input",nickname);
-        Connect.startSocketConnection();
-
-        Connect.getSocket().on("move received",onNewVibrate);
-        Connect.getSocket().on("lobby is full", lobbyFull);
-        Connect.getSocket().on("game is running", gameRunning);
-        Connect.getSocket().on("quit",quit);
-
-        Controller = new SimpleController();
-
-
-        Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
-        Sensor1.start();
-
-    }
-
-    private Emitter.Listener onNewVibrate = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
-            v.vibrate(100);
-
-        }
-
-    };
-
-
-
-    private Emitter.Listener lobbyFull = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            // Start game YAY!
-
-
-        }
-
-    };
-
-    private Emitter.Listener gameRunning = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-
-
-        }
-
-    };
-
-    private Emitter.Listener quit = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-
-            Sensor1.stop();
-            Connect.getSocket().disconnect();
-            Connect.getSocket().off("new message", onNewVibrate);
-            Connect.getSocket().off("lobby is full", lobbyFull);
-            Connect.getSocket().off("game is running" , gameRunning);
-            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-    };
-
-
-    /*
-    * helpInfo() and settingInfo() are two methods which redirect to a new Activity
-    */
-    private void helpInfo() {
-
-        Intent HelpIntent = new Intent(SecondActivity.this,HelpActivity.class);
-        HelpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(HelpIntent);
-    }
-
-    private void settingInfo() {
-
-        Intent SettingIntent = new Intent(SecondActivity.this,SettingActivity.class);
-        SettingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(SettingIntent);
-
-    }
-
-
-
-    @Override
-    public void onBackPressed() {
-        Sensor1.stop();
-        Connect.getSocket().disconnect();
-        Connect.getSocket().off("new message", onNewVibrate);
-        Connect.getSocket().off("lobby is full", lobbyFull);
-        Connect.getSocket().off("game is running" , gameRunning);
-        Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+    }*/
 
 }

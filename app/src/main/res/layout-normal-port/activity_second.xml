@@ -217,8 +217,8 @@ tools:context="game.project.com.gameclouds.MainActivity"
         android:layout_width="150dp"
         android:visibility="invisible"
         android:layout_above="@+id/buttondownright"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toRightOf="@+id/btndownleftmore"
+        android:layout_toEndOf="@+id/btndownleftmore" />
 
     <!-- <Button
          android:id="@+id/buttonupleft"
