@@ -34,16 +34,16 @@ public class SimpleController implements Controller{
             return "R1";
         }
         // Down right
-        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > 2 && yAccel < 5) && (zAccel < 6 && zAccel > 2))) {
+        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > 2 && yAccel < 5) && (zAccel < 6 && zAccel > 3))) {
             return "RD0";
         }
-        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > 2 && yAccel < 5) && (zAccel < 6 && zAccel < 2))) {
+        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > 2 && yAccel < 5) && (zAccel < 6 && zAccel < 3))) {
             return "RD1";
         }
-        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > -5 && yAccel < -2) && (zAccel < 6 && zAccel > 2))) {
+        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > -5 && yAccel < -2) && (zAccel < 6 && zAccel > 3))) {
             return "LD0";
         }
-        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > -9.5 && yAccel < -2) && (zAccel < 6 && zAccel < 2))) {
+        else if (((xAccel > 6 && xAccel < 9.5) && (yAccel > -9.5 && yAccel < -2) && (zAccel < 6 && zAccel < 3))) {
             return "LD1";
         }
         // Down move
@@ -73,10 +73,10 @@ public class SimpleController implements Controller{
             return "RU1";
         }
         // Up
-        else if (((xAccel < 1 && xAccel > -2) && (yAccel > -4 && yAccel < 4) && zAccel > 2)) {
+        else if (((xAccel < 1 && xAccel > -2) && (yAccel > -2 && yAccel < 2) && zAccel > 2)) {
             return "U0";
         }
-        else if (((xAccel < -2 && xAccel > -7) && (yAccel > -4 && yAccel < 4) && zAccel > 2)) {
+        else if (((xAccel < -2 && xAccel > -7) && (yAccel > -3 && yAccel < 3) && zAccel > 2)) {
             return "U1";
         }
 

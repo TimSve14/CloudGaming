@@ -3,10 +3,12 @@ package game.project.com.gameclouds;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.google.zxing.Result;
 
@@ -22,6 +24,13 @@ private String info = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         mScannerView = new ZXingScannerView(this);
         setContentView(mScannerView);

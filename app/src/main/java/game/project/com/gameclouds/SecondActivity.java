@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.github.nkzawa.emitter.Emitter;
 
 
@@ -54,6 +54,12 @@ public class SecondActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         activeSensor = false;
@@ -150,7 +156,6 @@ public class SecondActivity extends Activity{
                         UpRight.setVisibility(View.INVISIBLE);
                         DownLeft.setVisibility(View.INVISIBLE);
                         DownRight.setVisibility(View.INVISIBLE);
-                        //Right.startAnimation(AnimationUtils.loadAnimation(SecondActivity.this,android.R.anim.slide_in_left));
                         Right.setVisibility(View.VISIBLE);
 
                         RightMore.setVisibility(View.VISIBLE);
@@ -499,8 +504,6 @@ public class SecondActivity extends Activity{
 
     }
 
-
-
     private void startGame() {
 
         StartBtn.setVisibility(View.INVISIBLE);
@@ -538,8 +541,6 @@ public class SecondActivity extends Activity{
 
     };
 
-
-
     private Emitter.Listener lobbyFull = new Emitter.Listener() {
 
         @Override
@@ -575,7 +576,7 @@ public class SecondActivity extends Activity{
                 Connect.getSocket().off("pingding", pingding);
             }
             Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
@@ -610,8 +611,6 @@ public class SecondActivity extends Activity{
 
     }
 
-
-
     @Override
     public void onBackPressed() {
         if(activeSensor) {
@@ -622,8 +621,9 @@ public class SecondActivity extends Activity{
             Connect.getSocket().off("game is running", gameRunning);
             Connect.getSocket().off("pingding", pingding);
         }
+
         Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

@@ -2,6 +2,7 @@ package game.project.com.gameclouds;
 
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         final String data = getIntent().getStringExtra("key");
 
 

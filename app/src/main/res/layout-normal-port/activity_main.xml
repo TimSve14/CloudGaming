@@ -125,7 +125,7 @@
 
     <ImageView
         android:id="@+id/qr1_button"
-        android:background="@drawable/qr"
+        android:background="@drawable/qrwhite"
         android:visibility="visible"
         android:elevation="9dp"
         android:layout_marginBottom="14dp"

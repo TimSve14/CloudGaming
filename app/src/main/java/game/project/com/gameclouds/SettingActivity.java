@@ -22,13 +22,17 @@ import static android.R.attr.data;
 public class SettingActivity extends Activity{
 
     private EditText IpAdress;
-    private String ip_adress;
-    private Button test;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         IpAdress = (EditText)findViewById(R.id.ip_edittext);
 

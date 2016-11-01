@@ -24,6 +24,7 @@ public class SocketConnect extends Activity {
     public SocketConnect(String roomId, String input, String userName,String ipadress){
        if(ipadress != null){
            try {
+               ipadress = "104.155.77.173";
                mSocket = IO.socket("http://"+ ipadress + "/");
 
            } catch (URISyntaxException e) {
