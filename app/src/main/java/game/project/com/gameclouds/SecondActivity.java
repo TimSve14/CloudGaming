@@ -2,16 +2,13 @@ package game.project.com.gameclouds;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
@@ -82,29 +79,29 @@ public class SecondActivity extends Activity{
                 public void run() {
                     if(move.equals("L0")){
 
-                        imageview.setImageResource(R.drawable.trans);
+                        imageview.setImageResource(R.drawable.transleft1);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
 
                     }else if(move.equals("L1")){
-                        imageview.setImageResource(R.drawable.trans1);
+                        imageview.setImageResource(R.drawable.transleft2);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     } else if(move.equals("R0")){
-                        imageview.setImageResource(R.drawable.transhr);
+                        imageview.setImageResource(R.drawable.transright1);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("R1")){
-                        imageview.setImageResource(R.drawable.transrm);
+                        imageview.setImageResource(R.drawable.transright2);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("U0")){
-                        imageview.setImageResource(R.drawable.transhu);
+                        imageview.setImageResource(R.drawable.transup1);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("U1")){
-                        imageview.setImageResource(R.drawable.transum);
+                        imageview.setImageResource(R.drawable.transup2);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("D0")){
-                        imageview.setImageResource(R.drawable.transhd);
+                        imageview.setImageResource(R.drawable.transdown1);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("D1")){
-                        imageview.setImageResource(R.drawable.transdm);
+                        imageview.setImageResource(R.drawable.transdown2);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("LU0")){
                         imageview.setImageResource(R.drawable.transuplefthalf);
@@ -132,7 +129,7 @@ public class SecondActivity extends Activity{
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }
                     else {
-                        imageview.setImageResource(R.drawable.transss);
+                        imageview.setImageResource(R.drawable.transtart);
                         ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }
 
@@ -150,8 +147,9 @@ public class SecondActivity extends Activity{
         StartBtn.setVisibility(View.INVISIBLE);
         StartBtn2.setVisibility(View.VISIBLE);
 
-        SharedPreferences mPrefs = getSharedPreferences("myAppPackage",0);
-        String ipadress = mPrefs.getString("ipadress", "");
+
+        String ipadress = MyPreferences.getIp(this);
+        //System.out.println("Working: " + ipadress);
 
         Connect = new SocketConnect(room_id,"input",nickname,ipadress);
         Connect.startSocketConnection();
@@ -175,8 +173,8 @@ public class SecondActivity extends Activity{
 
         @Override
         public void call(Object... args) {
-            v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
-            v.vibrate(100);
+          //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
+          //  v.vibrate(100);
 
         }
 
