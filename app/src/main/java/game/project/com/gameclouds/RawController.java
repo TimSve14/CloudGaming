@@ -22,11 +22,11 @@ public class RawController implements Controller{
 
         String value = null;
 
-        if(xAccel != 1000){
+        if(xAccel != 10){
             value = String.valueOf(xAccel);
-        }else if(yAccel != 1000){
+        }else if(yAccel != 10){
             value = String.valueOf(yAccel);
-        }else if(zAccel != 1000){
+        }else if(zAccel != 10){
             value = String.valueOf(zAccel);
         }
 
