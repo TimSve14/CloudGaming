@@ -25,6 +25,7 @@ public class SecondActivity extends Activity{
     private ImageView imageview;
     private InitSensor Sensor1;
     private SimpleController Controller;
+    private RawController rawController;
     private SocketConnect Connect;
     private boolean activeSensor;
     String room_id;
@@ -184,8 +185,11 @@ public class SecondActivity extends Activity{
 
         Controller = new SimpleController();
 
+        //rawController = new RawController();
+
 
         Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
+        //Sensor1 = new InitSensor(this,rawController,Connect,SecondActivity.this);
         Sensor1.start();
         activeSensor = true;
 
