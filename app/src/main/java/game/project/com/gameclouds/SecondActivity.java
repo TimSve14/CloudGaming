@@ -9,10 +9,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.github.nkzawa.emitter.Emitter;
-
-
 
 /**
  * Created by Lolita & Tim on 2016-09-26.
@@ -20,7 +17,6 @@ import com.github.nkzawa.emitter.Emitter;
 
 public class SecondActivity extends Activity{
     private Button StartBtn;
-    private Button StartBtn2;
     private ImageView imageview;
     private InitSensor Sensor1;
     private SimpleController Controller;
@@ -34,10 +30,10 @@ public class SecondActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_second);
-        setContentView(R.layout.activity_t);
+        setContentView(R.layout.activity_trans);
 
         View decorView = getWindow().getDecorView();
+
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
@@ -47,15 +43,22 @@ public class SecondActivity extends Activity{
         activeSensor = false;
 
         StartBtn = (Button)findViewById(R.id.start_button);
-        StartBtn2 = (Button)findViewById(R.id.start_button2);
+        StartBtn.setVisibility(View.INVISIBLE);
 
         imageview = (ImageView)findViewById(R.id.imageView);
         imageview.setImageResource(R.drawable.gamestart);
         ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
 
+        Bundle extras = getIntent().getExtras();
 
+        nickname = extras.getString("nick");
+        room_id = extras.getString("room");
 
+        String ipadress = MyPreferences.getIp(this);
 
+        Connect = new SocketConnect(room_id,"input",nickname,ipadress);
+        Connect.startSocketConnection();
+        Connect.getSocket().on("game is ready", gameReady);
 
         StartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,16 +68,81 @@ public class SecondActivity extends Activity{
             }
         });
 
-        Bundle extras = getIntent().getExtras();
+    }
 
-        nickname = extras.getString("nick");
-        room_id = extras.getString("room");
+
+    private void startGame() {
+
+        Connect.getSocket().on("move received",onNewFeedback);
+        Connect.getSocket().on("pingding",pingding);
+        Connect.getSocket().on("quit",quit);
+
+        Controller = new SimpleController();
+
+        Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
+        Sensor1.start();
+        activeSensor = true;
 
     }
 
+    private Emitter.Listener onNewFeedback = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+          //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
+          //  v.vibrate(100);
+
+        }
+
+    };
+
+    private Emitter.Listener gameReady = new Emitter.Listener() {
+
+        @Override
+
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    StartBtn.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+    };
+
+
+    private Emitter.Listener quit = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+
+            if(activeSensor) {
+                Sensor1.stop();
+                Connect.getSocket().disconnect();
+                Connect.getSocket().off("feedback", onNewFeedback);
+                Connect.getSocket().off("game is ready", gameReady);
+                Connect.getSocket().off("pingding", pingding);
+            }
+            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+
+    };
+
+    private Emitter.Listener pingding = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            Connect.getSocket().emit("ping response");
+        }
+
+    };
+
     public void update(final String move) {
         if (move != null) {
-            runOnUiThread(new Runnable() {
+            runOnUiThread(new Runnable(){
                 @Override
                 public void run() {
                     if(move.equals("L0")){
@@ -140,124 +208,13 @@ public class SecondActivity extends Activity{
         }
     }
 
-
-
-    private void startGame() {
-
-        StartBtn.setVisibility(View.INVISIBLE);
-        StartBtn2.setVisibility(View.VISIBLE);
-
-
-        String ipadress = MyPreferences.getIp(this);
-        //System.out.println("Working: " + ipadress);
-
-        Connect = new SocketConnect(room_id,"input",nickname,ipadress);
-        Connect.startSocketConnection();
-
-        Connect.getSocket().on("move received",onNewVibrate);
-        Connect.getSocket().on("lobby is full", lobbyFull);
-        Connect.getSocket().on("game is running", gameRunning);
-        Connect.getSocket().on("pingding",pingding);
-        Connect.getSocket().on("quit",quit);
-
-        Controller = new SimpleController();
-
-
-        Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
-        Sensor1.start();
-        activeSensor = true;
-
-    }
-
-    private Emitter.Listener onNewVibrate = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-          //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
-          //  v.vibrate(100);
-
-        }
-
-    };
-
-    private Emitter.Listener lobbyFull = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            // Start game YAY!
-
-
-        }
-
-    };
-
-    private Emitter.Listener gameRunning = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-
-
-        }
-
-    };
-
-    private Emitter.Listener quit = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-
-            if(activeSensor) {
-                Sensor1.stop();
-                Connect.getSocket().disconnect();
-                Connect.getSocket().off("new message", onNewVibrate);
-                Connect.getSocket().off("lobby is full", lobbyFull);
-                Connect.getSocket().off("game is running", gameRunning);
-                Connect.getSocket().off("pingding", pingding);
-            }
-            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        }
-
-    };
-
-    private Emitter.Listener pingding = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            Connect.getSocket().emit("ping response");
-
-        }
-
-    };
-
-    /*
-    * helpInfo() and settingInfo() are two methods which redirect to a new Activity
-    */
-    private void helpInfo() {
-
-        Intent HelpIntent = new Intent(SecondActivity.this,HelpActivity.class);
-        HelpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(HelpIntent);
-    }
-
-    private void settingInfo() {
-
-        Intent SettingIntent = new Intent(SecondActivity.this,SettingActivity.class);
-        SettingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(SettingIntent);
-
-    }
-
     @Override
     public void onBackPressed() {
         if(activeSensor) {
             Sensor1.stop();
             Connect.getSocket().disconnect();
-            Connect.getSocket().off("new message", onNewVibrate);
-            Connect.getSocket().off("lobby is full", lobbyFull);
-            Connect.getSocket().off("game is running", gameRunning);
+            Connect.getSocket().off("new message", onNewFeedback);
+            Connect.getSocket().off("lobby is full", gameReady);
             Connect.getSocket().off("pingding", pingding);
         }
 

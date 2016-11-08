@@ -26,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/start_button2"
-        android:visibility="invisible"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorAccent" />
@@ -39,11 +38,4 @@
         android:layout_alignBottom="@+id/start_button2"
         android:layout_centerHorizontal="true" />
 
-    <!--  <Button
-          android:text="GO"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_alignParentBottom="true"
-          android:layout_centerHorizontal="true"
-          android:id="@+id/button" /> -->
 </RelativeLayout>
