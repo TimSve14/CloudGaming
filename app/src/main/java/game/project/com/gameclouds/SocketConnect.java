@@ -22,9 +22,13 @@ public class SocketConnect extends Activity {
     Vibrator v;
 
     public SocketConnect(String roomId, String input, String userName,String ipadress){
-       if(ipadress != null){
+
+        // Check if there are three dots in the ip-adress, if not connect
+        // to the usual ip adress
+
+        if(ipadress.indexOf('.', ipadress.indexOf('.') + 2) != -1){
            try {
-               ipadress = "104.155.77.173";
+               ipadress = "104.155.85.38";
                mSocket = IO.socket("http://"+ ipadress + "/");
 
            } catch (URISyntaxException e) {
@@ -32,7 +36,7 @@ public class SocketConnect extends Activity {
        }
         else{
            try {
-               mSocket = IO.socket("http://104.155.77.173/");
+               mSocket = IO.socket("http://104.155.85.38/");
 
            } catch (URISyntaxException e) {
            }

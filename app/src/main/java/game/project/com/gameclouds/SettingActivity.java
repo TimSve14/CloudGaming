@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -40,8 +39,9 @@ public class SettingActivity extends Activity{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    setIp(SettingActivity.this, IpAdress.getText().toString());
-                    System.out.println(getIp(SettingActivity.this));
+                    MyPreferences.saveIp(SettingActivity.this,IpAdress.getText().toString());
+                    System.out.println(MyPreferences.getIp(SettingActivity.this));
+
                     Toast.makeText(SettingActivity.this, "The ip-adress has been updated",
                             Toast.LENGTH_LONG).show();
                     return false;
@@ -64,17 +64,6 @@ public class SettingActivity extends Activity{
 
     }
 
-    public static void setIp(Context context, String _ip) {
-        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("ipadress", _ip);
-        editor.commit();
-    }
-
-    public static String getIp(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
-        return prefs.getString("ipadress", "");
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
