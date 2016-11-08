@@ -9,6 +9,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import com.github.nkzawa.emitter.Emitter;
 
 /**
@@ -25,12 +26,15 @@ public class SecondActivity extends Activity{
     String room_id;
     String nickname;
     Vibrator v;
+    private RelativeLayout relativeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trans);
+
+        relativeLayout = (RelativeLayout)findViewById(R.id.activity_t);
 
         View decorView = getWindow().getDecorView();
 
@@ -47,7 +51,7 @@ public class SecondActivity extends Activity{
 
         imageview = (ImageView)findViewById(R.id.imageView);
         imageview.setImageResource(R.drawable.gamestart);
-        ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
+       ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
 
         Bundle extras = getIntent().getExtras();
 
@@ -105,6 +109,7 @@ public class SecondActivity extends Activity{
                 @Override
                 public void run() {
                     StartBtn.setVisibility(View.VISIBLE);
+                    imageview.setVisibility(View.INVISIBLE);
                 }
             });
         }
@@ -146,59 +151,75 @@ public class SecondActivity extends Activity{
                 @Override
                 public void run() {
                     if(move.equals("L0")){
-
-                        imageview.setImageResource(R.drawable.transleft1);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.left1);
+                        //imageview.setImageResource(R.drawable.transleft1);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
 
                     }else if(move.equals("L1")){
-                        imageview.setImageResource(R.drawable.transleft2);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.left2);
+                        //imageview.setImageResource(R.drawable.transleft2);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     } else if(move.equals("R0")){
-                        imageview.setImageResource(R.drawable.transright1);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.right1);
+                        //imageview.setImageResource(R.drawable.transright1);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("R1")){
-                        imageview.setImageResource(R.drawable.transright2);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.right2);
+                        //imageview.setImageResource(R.drawable.transright2);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("U0")){
-                        imageview.setImageResource(R.drawable.transup1);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.up1);
+                        //imageview.setImageResource(R.drawable.transup1);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("U1")){
-                        imageview.setImageResource(R.drawable.transup2);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.up2);
+                        //imageview.setImageResource(R.drawable.transup2);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("D0")){
-                        imageview.setImageResource(R.drawable.transdown1);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.down1);
+                       // imageview.setImageResource(R.drawable.transdown1);
+                       // ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("D1")){
-                        imageview.setImageResource(R.drawable.transdown2);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.down2);
+                        //imageview.setImageResource(R.drawable.transdown2);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("LU0")){
-                        imageview.setImageResource(R.drawable.transuplefthalf);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.upleft1);
+                        //imageview.setImageResource(R.drawable.transuplefthalf);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("LU1")){
-                        imageview.setImageResource(R.drawable.transupleft);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.upleft2);
+                       // imageview.setImageResource(R.drawable.transupleft);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("RU0")){
-                        imageview.setImageResource(R.drawable.transuprighthalf);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.upright1);
+                        //imageview.setImageResource(R.drawable.transuprighthalf);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("RU1")){
-                        imageview.setImageResource(R.drawable.transupright);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.upright2);
+                        //imageview.setImageResource(R.drawable.transupright);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("LD0")){
-                        imageview.setImageResource(R.drawable.transdownlefthalf);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.downleft1);
+                       // imageview.setImageResource(R.drawable.transdownlefthalf);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("LD1")){
-                        imageview.setImageResource(R.drawable.transdownleft);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.downleft2);
+                        //imageview.setImageResource(R.drawable.transdownleft);
+                       // ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("RD0")){
-                        imageview.setImageResource(R.drawable.transdownrighthalf);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.downright1);
+                        //imageview.setImageResource(R.drawable.transdownrighthalf);
+                       // ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }else if(move.equals("RD1")){
-                        imageview.setImageResource(R.drawable.transdownright);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.downright2);
+                       // imageview.setImageResource(R.drawable.transdownright);
+                        //((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }
                     else {
-                        imageview.setImageResource(R.drawable.transtart);
-                        ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
+                        relativeLayout.setBackgroundResource(R.drawable.start);
+                       // imageview.setImageResource(R.drawable.transtart);
+                       // ((TransitionDrawable) imageview.getDrawable()).startTransition(0);
                     }
 
                 }
@@ -207,6 +228,7 @@ public class SecondActivity extends Activity{
             //Do what ?
         }
     }
+
 
     @Override
     public void onBackPressed() {
