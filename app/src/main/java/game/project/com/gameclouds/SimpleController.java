@@ -25,6 +25,7 @@ public class SimpleController implements Controller{
 
         if ((xAccel > 3 && xAccel < 7) && (yAccel < 2 && yAccel > -2) && zAccel > 7) {
             return "C";
+
         }
         //Right move
         else if ((xAccel < 6 && xAccel > 2) && (yAccel > 2 && yAccel < 4) && zAccel > 2) {

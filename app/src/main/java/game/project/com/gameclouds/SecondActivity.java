@@ -51,7 +51,7 @@ public class SecondActivity extends Activity{
 
         imageview = (ImageView)findViewById(R.id.imageView);
         imageview.setImageResource(R.drawable.gamestart);
-       ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
+        ((TransitionDrawable) imageview.getDrawable()).startTransition(4000);
 
         Bundle extras = getIntent().getExtras();
 
@@ -93,8 +93,8 @@ public class SecondActivity extends Activity{
 
         @Override
         public void call(Object... args) {
-          //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
-          //  v.vibrate(100);
+            //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
+            //  v.vibrate(100);
 
         }
 
