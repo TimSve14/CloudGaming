@@ -64,17 +64,6 @@ public class SettingActivity extends Activity{
 
     }
 
-    public static void setIp(Context context, String _ip) {
-        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("ipadress", _ip);
-        editor.commit();
-    }
-
-    public static String getIp(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("myAppPackage", 0);
-        return prefs.getString("ipadress", "");
-    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);

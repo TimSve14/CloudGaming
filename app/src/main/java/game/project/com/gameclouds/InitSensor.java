@@ -25,8 +25,6 @@ public class InitSensor extends Activity implements SensorEventListener{
     private ImageView pattern;
     static String move = "";
     private SecondActivity sa;
-    //privtate List<SecondActivity> ls = new list......
-
 
 
     public InitSensor(){
@@ -79,10 +77,8 @@ public class InitSensor extends Activity implements SensorEventListener{
 
     }
 
-    /*This method needs to be implemented when using SensorEventListener but it is
-     * not needed in our code */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-
+        // Do nothing
 }
