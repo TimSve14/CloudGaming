@@ -40,7 +40,6 @@ public class SettingActivity extends Activity{
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     MyPreferences.saveIp(SettingActivity.this,IpAdress.getText().toString());
-                    System.out.println(MyPreferences.getIp(SettingActivity.this));
 
                     Toast.makeText(SettingActivity.this, "The ip-adress has been updated",
                             Toast.LENGTH_LONG).show();

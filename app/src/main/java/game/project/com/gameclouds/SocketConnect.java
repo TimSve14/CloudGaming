@@ -25,10 +25,10 @@ public class SocketConnect extends Activity {
 
         // Check if there are three dots in the ip-adress, if not connect
         // to the usual ip adress
-
-        if(ipadress.indexOf('.', ipadress.indexOf('.') + 2) != -1){
+    // ipadress.indexOf('.', ipadress.indexOf('.') + 2) != -1
+        if(true){
            try {
-               ipadress = "104.155.85.38";
+               System.out.println("The right ip:" + ipadress);
                mSocket = IO.socket("http://"+ ipadress + "/");
 
            } catch (URISyntaxException e) {
@@ -36,7 +36,7 @@ public class SocketConnect extends Activity {
        }
         else{
            try {
-               mSocket = IO.socket("http://104.155.85.38/");
+                   mSocket = IO.socket("http://104.155.85.38/");
 
            } catch (URISyntaxException e) {
            }

@@ -85,7 +85,6 @@ public class MainActivity extends FragmentActivity {
                                 || actionId == EditorInfo.IME_ACTION_DONE
                                 || event.getAction() == KeyEvent.ACTION_DOWN
                                 && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                            System.out.println(room_id.length());
                             if (room_id.length() == 6) {
                                 SC1.setVisibility(View.INVISIBLE);
                                 ConnectBtn.setVisibility(View.VISIBLE);

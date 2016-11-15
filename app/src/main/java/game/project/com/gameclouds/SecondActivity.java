@@ -7,6 +7,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -37,6 +38,7 @@ public class SecondActivity extends Activity{
         relativeLayout = (RelativeLayout)findViewById(R.id.activity_t);
 
         View decorView = getWindow().getDecorView();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -59,6 +61,7 @@ public class SecondActivity extends Activity{
         room_id = extras.getString("room");
 
         String ipadress = MyPreferences.getIp(this);
+        System.out.println(ipadress);
 
         Connect = new SocketConnect(room_id,"input",nickname,ipadress);
         Connect.startSocketConnection();
@@ -77,7 +80,7 @@ public class SecondActivity extends Activity{
 
     private void startGame() {
 
-        Connect.getSocket().on("move received",onNewFeedback);
+        Connect.getSocket().on("feedback",onNewFeedback);
         Connect.getSocket().on("pingding",pingding);
         Connect.getSocket().on("quit",quit);
 
@@ -93,8 +96,8 @@ public class SecondActivity extends Activity{
 
         @Override
         public void call(Object... args) {
-            //  v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
-            //  v.vibrate(100);
+              v = (Vibrator) SecondActivity.this.getSystemService(SecondActivity.this.VIBRATOR_SERVICE);
+              v.vibrate(50);
 
         }
 
