@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,7 +18,7 @@ import com.github.nkzawa.emitter.Emitter;
  * Created by Lolita & Tim on 2016-09-26.
  */
 
-public class SecondActivity extends Activity{
+public class SecondActivity extends FragmentActivity {
     private Button StartBtn;
     private ImageView imageview;
     private InitSensor Sensor1;
