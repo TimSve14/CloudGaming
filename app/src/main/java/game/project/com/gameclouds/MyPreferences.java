@@ -32,5 +32,17 @@ public class MyPreferences {
         return reader.getString("ipadress", "");
     }
 
+    public static void sendRawData(Context context, Boolean rawData){
+        final SharedPreferences reader = context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = reader.edit();
+        editor.putBoolean("rawData", rawData);
+        editor.apply();
+    }
+
+    public static boolean isRawData(Context context){
+        final SharedPreferences reader = context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+        return reader.getBoolean("rawData", false);
+    }
+
 
 }

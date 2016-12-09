@@ -47,6 +47,9 @@ public class MainActivity extends FragmentActivity {
     protected static String room_id;
     protected static String nickname;
     private Boolean exit = false;
+    private Handler mHandler = new Handler();
+    private long mStartRX = 0;
+    private long mStartTX = 0;
 
     /**
      * OnCreate method,
@@ -65,6 +68,8 @@ public class MainActivity extends FragmentActivity {
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+
+
 
         final String data = getIntent().getStringExtra("key");
 
@@ -323,6 +328,9 @@ public class MainActivity extends FragmentActivity {
 
         GameIntent.putExtra("room", _room_id);
         GameIntent.putExtra("nick", _nickname);
+
+        Boolean rawData = MyPreferences.isRawData(this);
+        System.out.println(rawData);
 
         startActivity(GameIntent);
         finish();

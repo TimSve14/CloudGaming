@@ -62,6 +62,7 @@ public class SecondActivity extends FragmentActivity {
         room_id = extras.getString("room");
 
         String ipadress = MyPreferences.getIp(this);
+
         System.out.println(ipadress);
 
         Connect = new SocketConnect(room_id,"input",nickname,ipadress);
@@ -88,6 +89,7 @@ public class SecondActivity extends FragmentActivity {
         Controller = new SimpleController();
 
         Sensor1 = new InitSensor(this,Controller,Connect,SecondActivity.this);
+
         Sensor1.start();
         activeSensor = true;
 

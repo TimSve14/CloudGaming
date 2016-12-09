@@ -15,10 +15,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Some text will be here later"
+        android:text="www.cloudgaming.xyz"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold|italic"
         android:textColor="#ffffff"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:layout_marginTop="100dp" />
+
+    <Button
+        android:text="Data sniffing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/button" />
+
 </LinearLayout>

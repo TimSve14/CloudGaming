@@ -27,11 +27,7 @@ public class InitSensor extends Activity implements SensorEventListener{
     private SecondActivity sa;
 
 
-    public InitSensor(){
-    }
-    //public InitSensor(Context mContext,Controller _controller, SocketConnect _connect, Actitivity a){
     public InitSensor(Context mContext,Controller _controller, SocketConnect _connect,SecondActivity _sa){
-        //ls.add(a)
         this.sa = _sa;
         this.mContext = mContext;
         this.Controller = _controller;
@@ -57,23 +53,27 @@ public class InitSensor extends Activity implements SensorEventListener{
         //move = "";
         String previousMove ="";
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            values[0] = event.values[0];
-            values[1] = event.values[1];
-            values[2] = event.values[2];
+        if(!(MyPreferences.isRawData(mContext))) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                values[0] = event.values[0];
+                values[1] = event.values[1];
+                values[2] = event.values[2];
 
-            move = Controller.getMove(values);
+                move = Controller.getMove(values);
 
+                if (move != currentState && move != null) {
 
-
-
-            if(move != currentState && move != null) {
-
-                Connect.sendMove(move);
-                currentState = move;
-                sa.update(move);
+                    Connect.sendMove(move);
+                    currentState = move;
+                    sa.update(move);
+                }
             }
         }
+
+        else{
+            Connect.sendMoveRAW(values);
+        }
+
 
     }
 

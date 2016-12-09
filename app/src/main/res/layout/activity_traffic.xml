@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="hello"
+        />
+    <Button
+        android:id="@+id/loadtrafficstats"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Load TrafficStats"
+        />
+    <TextView
+        android:id="@+id/MobileRxBytes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/MobileRxPackets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/MobileTxBytes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/MobileTxPackets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/TotalRxBytes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/TotalRxPackets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/TotalTxBytes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/TotalTxPackets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>
+

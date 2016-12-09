@@ -48,20 +48,33 @@ public class SettingActivity extends Activity{
                 return true;
             }
         });
-        Button button= (Button) findViewById(R.id.test_controll);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonRaw= (Button) findViewById(R.id.raw_button);
+        buttonRaw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent GameIntent = new Intent(SettingActivity.this, SecondActivity.class);
-                GameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                GameIntent.putExtra("room", "1");
-                GameIntent.putExtra("nick", "test");
-                startActivity(GameIntent);
-                finish();
+                MyPreferences.sendRawData(SettingActivity.this,true);
+
+                Toast.makeText(SettingActivity.this, "Sending raw data to server",
+                        Toast.LENGTH_LONG).show();
+
             }
         });
 
+
+        Button buttonMove = (Button) findViewById(R.id.moves_buttons);
+        buttonMove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyPreferences.sendRawData(SettingActivity.this,false);
+
+                Toast.makeText(SettingActivity.this, "Sending moves to server",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
+
+
+
 
     @Override
     public void onBackPressed() {
