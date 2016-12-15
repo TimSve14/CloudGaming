@@ -71,6 +71,11 @@ public class InitSensor extends Activity implements SensorEventListener{
         }
 
         else{
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                values[0] = event.values[0];
+                values[1] = event.values[1];
+                values[2] = event.values[2];
+            }
             Connect.sendMoveRAW(values);
         }
 

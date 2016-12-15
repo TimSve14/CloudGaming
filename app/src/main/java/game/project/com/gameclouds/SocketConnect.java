@@ -105,7 +105,7 @@ public class SocketConnect extends Activity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        mSocket.emit("raw data",JsonMove);
+        mSocket.emit("new move",JsonMove);
 
         //how many packets are sent to server
         outgoingData++;
@@ -116,7 +116,5 @@ public class SocketConnect extends Activity {
     public Socket getSocket(){
         return mSocket;
     }
-
-
-
+    
 }
