@@ -3,6 +3,7 @@ package game.project.com.gameclouds;
 /**
  * Created by TimSvensson on 2016-12-08.
  */
+
     import android.app.Activity;
     import android.content.Intent;
     import android.net.TrafficStats;
@@ -107,14 +108,6 @@ public class AndroidTrafficStats extends Activity{
 
             }});
 
-    }
-
-    public String getTotalRecievedData(){
-        return String.valueOf(TrafficStats.getTotalRxBytes() - TrafficStats.getMobileRxBytes());
-    }
-
-    public String getTotalUploadedData(){
-        return String.valueOf(TrafficStats.getTotalTxBytes() - TrafficStats.getMobileTxBytes());
     }
 
     @Override

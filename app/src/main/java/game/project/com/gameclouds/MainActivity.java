@@ -47,9 +47,6 @@ public class MainActivity extends FragmentActivity {
     protected static String room_id;
     protected static String nickname;
     private Boolean exit = false;
-    private Handler mHandler = new Handler();
-    private long mStartRX = 0;
-    private long mStartTX = 0;
 
     /**
      * OnCreate method,
@@ -59,12 +56,14 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         View decorView = getWindow().getDecorView();
+
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
@@ -214,6 +213,9 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    /**
+     * nextActivity are a method which redirect to a new Activity
+     */
     private void nextActivity() {
 
         Intent nextA = new Intent(MainActivity.this, ScannerActivity.class);
@@ -242,7 +244,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
-     * CheckLogin() checks if roomID and Nickname aren't null
+     * CheckLogin() checks if roomID and Nickname are valid and aren't null
      */
     private void checkLogin() {
 
@@ -320,7 +322,12 @@ public class MainActivity extends FragmentActivity {
         mProgress.dismiss();
     }
 
-
+    /**
+     * Takes the inparameters for the game and switch the activity
+     * to SecondActivity
+     * @param _room_id
+     * @param _nickname
+     */
     private void connectToGame(String _room_id, String _nickname) {
 
         Intent GameIntent = new Intent(MainActivity.this, SecondActivity.class);
@@ -336,6 +343,11 @@ public class MainActivity extends FragmentActivity {
         finish();
     }
 
+    /**
+     * Overridden method so that the user
+     * need to verify backpress to exit
+     * the application
+     */
 
     @Override
     public void onBackPressed() {

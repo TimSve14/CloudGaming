@@ -79,7 +79,9 @@ public class SecondActivity extends FragmentActivity {
 
     }
 
-
+    /**
+     * This method is being called internal to start the game
+     */
     private void startGame() {
 
         Connect.getSocket().on("feedback",onNewFeedback);
@@ -151,6 +153,11 @@ public class SecondActivity extends FragmentActivity {
 
     };
 
+    /**
+     * This method is being called internal to update
+     * the ui in the layout
+     * @param move
+     */
     public void update(final String move) {
         if (move != null) {
             runOnUiThread(new Runnable(){
@@ -216,7 +223,10 @@ public class SecondActivity extends FragmentActivity {
         }
     }
 
-
+    /**
+     * Overridden method so that the sockets
+     * disconnect when the user presses back
+     */
     @Override
     public void onBackPressed() {
         if(activeSensor) {

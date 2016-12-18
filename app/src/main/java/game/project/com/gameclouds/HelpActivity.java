@@ -17,12 +17,14 @@ public class HelpActivity extends Activity{
         setContentView(R.layout.activity_help);
 
         View decorView = getWindow().getDecorView();
+
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         Button button= (Button) findViewById(R.id.button);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

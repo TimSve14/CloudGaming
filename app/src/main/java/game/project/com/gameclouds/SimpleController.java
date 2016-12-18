@@ -14,6 +14,12 @@ public class SimpleController implements Controller{
 
     }
 
+    /**
+     * The method maps raw data from the accelerometer
+     * to different moves.
+     * @param coordinates from the accelerometer
+     * @return String value of the move
+     */
     @Override
     public String getMove(float[] coordinates) {
 

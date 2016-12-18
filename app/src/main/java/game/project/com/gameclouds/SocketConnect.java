@@ -22,6 +22,13 @@ public class SocketConnect extends Activity {
     Vibrator v;
     Integer outgoingData = 0;
 
+    /**
+     * The constructor of SocketConnect
+     * @param roomId
+     * @param input
+     * @param userName
+     * @param ipadress
+     */
     public SocketConnect(String roomId, String input, String userName,String ipadress){
 
         // Check if there are three dots in the ip-adress, if not connect
@@ -49,6 +56,9 @@ public class SocketConnect extends Activity {
         this.userName = userName;
     }
 
+    /**
+     * Internal method to start the socket connection.
+     */
     public void startSocketConnection(){
 
         mSocket.connect();
@@ -69,7 +79,10 @@ public class SocketConnect extends Activity {
 
     }
 
-    // Send mapped data to server
+    /**
+     * Send mapped moves to the server
+     * @param move
+     */
     public void sendMove(String move){
 
         JSONObject JsonMove = new JSONObject();
@@ -90,7 +103,10 @@ public class SocketConnect extends Activity {
 
     }
 
-    // Send raw data to server
+    /**
+     * Send raw data to the server
+     * @param moves
+     */
     public void sendMoveRAW(float [] moves){
 
         JSONObject JsonMove = new JSONObject();

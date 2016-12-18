@@ -26,26 +26,41 @@ public class InitSensor extends Activity implements SensorEventListener{
     static String move = "";
     private SecondActivity sa;
 
-
-    public InitSensor(Context mContext,Controller _controller, SocketConnect _connect,SecondActivity _sa){
-        this.sa = _sa;
+    /**
+     * The constructor of InitSensor
+     * @param mContext
+     * @param _controller
+     * @param _socket
+     * @param _secondActivity
+     */
+    public InitSensor(Context mContext,Controller _controller, SocketConnect _socket,SecondActivity _secondActivity){
+        this.sa = _secondActivity;
         this.mContext = mContext;
         this.Controller = _controller;
-        this.Connect = _connect;
+        this.Connect = _socket;
 
         sensorManager = (SensorManager)mContext.getSystemService(mContext.SENSOR_SERVICE);
 
     }
 
+    /**
+     * Starts the accelerometer sensor and needs
+     * to be called before accessing data from accelerometer.
+     */
     public void start(){
 
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
 
     }
 
+    /**
+     * Stops the accelerometer sensor, needs to be called
+     * when done
+     */
     public void stop(){
         sensorManager.unregisterListener(this);
     }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {

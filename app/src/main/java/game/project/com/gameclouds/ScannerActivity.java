@@ -38,6 +38,10 @@ private String info = "";
         mScannerView.startCamera();
     }
 
+    /**
+     * Internal method that handles the qr scanning
+     * @param result
+     */
     @Override
     public void handleResult(Result result) {
         Log.w("HandleResult",result.getText());
@@ -45,17 +49,12 @@ private String info = "";
         builder.setTitle("Scan result");
         builder.setMessage(result.getText());
 
-        AlertDialog alertDialog = builder.create();
-        //alertDialog.show();
-
         info = result.getText();
 
         if(!TextUtils.isEmpty(info)){
 
             mScannerView.stopCamera();
 
-
-            //Intent SettingsIntent = new Intent(this, MainActivity.class);
             Intent SettingsIntent = new Intent(this, MainActivity.class); //might be here TODO
             SettingsIntent.putExtra("key",result.getText());
             Log.i("bla", result.getText());
@@ -68,9 +67,11 @@ private String info = "";
             Log.e("QRcode is missing ","ERROR");
         }
 
-
-
-        // mScannerView.resumeCameraPreview(this);
+        /**
+         * Overridden method so that the user
+         * need to verify backpress to exit
+         * the application
+         */
     }
     @Override
     public void onBackPressed() {
